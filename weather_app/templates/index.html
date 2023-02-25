@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href=" {% static 'bootstrap.min.css' %}" rel="stylesheet">
+    {% if result.location %}
+    <title>Weather | {{ result.location.name }}</title>
+    {% else %}
+    <title>Weather App</title>
+    {% endif %}
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="container" style="margin-top: 10%;">
+            <form method="post">
+                {% csrf_token %}
+
+                <input class="form-control form-control-lg" type="text" name="q" placeholder="Enter the City">
+                <button class="btn btn-primary my-2" type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="container" style="padding: 5%;">
+            {% if result.location %}
+            <h1>{{ result.location.name }}</h1>
+            <h4>{{ result.location.localtime}}</h4>
+            <h2>{{ result.current.condition.text }}</h2>
+            {{ result.current.condition.icon.url }}
+            <h4>Temperature: {{ result.current.temp_c }}°C</h4>
+            <h4>Feels Like: {{ result.current.feelslike_c }}°C</h4>
+            {% else %}
+            <h2 style="color: red;">Sorry, Location not Found! Please Enter a Valid Location.</h2>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+
+</html>
